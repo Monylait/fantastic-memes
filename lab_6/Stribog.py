@@ -264,7 +264,7 @@ def Stribog(Mes: str, type_o: int):
     e[63] = 0
     h = g(e, h, N)
     h = g(e, h, Z)
-    return ''.join(reversed([('%0.2X' % a) for a in h][:(32 if type_o == 256 else 64)]))
+    return [a for a in h][:(32 if type_o == 256 else 64)]
 
 
 

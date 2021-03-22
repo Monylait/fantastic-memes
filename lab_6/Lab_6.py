@@ -5,7 +5,7 @@ from random import randint
 from bitstring import BitArray
 
 def Key():
-    notsecret=os.urandom(randint(5,1000000))
+    notsecret=os.urandom(randint(5,6415))
     #notsecret = BitArray(hex=notsecret)
     #notsecret=notsecret.bin[2:]
     with open("NotKey.jspy","w",encoding="UTF-8") as notkeyfile:
@@ -14,19 +14,52 @@ def Key():
 
 
 def SiSo(K0,ipad,ipod):
-    return [K0^ipad,K0^ipod]
+    siso=list()
+    r=[x^y for x,y in zip(K0,ipad)]
+    siso.append(r)
+    r=[x^y for x,y in zip(K0,ipod)]
+    siso.append(r)
+    return  siso
 
 
 def mes_b(mes,b):
     M = []
-    for x in range(N):
+    for x in range(b):
         m0 = []
         for y in range(16):
             j = res[:64]
             res = res[64:]
             m0.append(j)
         M.append(m0)
+  
+
+def mes_ord(mes):
+    m=[0]*len(mes)
+    for i in range(0, len(mes)):
+        m[i] = ord(mes[i])
+    return m
         
+def HMAC(SISO,M, type):
+    Si=SISO[0]  # K0^ipad
+    So=SISO[1]  # K0^opad
+    Si=''.join(reversed([('%0.2X' % a) for a in Si]))
+    So=''.join(reversed([('%0.2X' % a) for a in So]))
+    x=Si+M
+    if type[0]==1:
+        y=STR.Stribog(x,type[1]) 
+        y=''.join(reversed([('%0.2X' % a) for a in y]))
+        z=STR.Stribog(So+y,type[1])
+        z=''.join(reversed([('%0.2X' % a) for a in z]))
+    elif type[0]==0:
+        if type[1]==256:
+            y=SHA.sha256(M)
+            z=SHA.sha256(So+M)
+        elif type[1]==512:
+            y=SHA.sha512(M)
+            z=SHA.sha512(So+M)
+    return z
+
+
 
 flag = True
 mes=""
@@ -35,8 +68,8 @@ while flag:
 
 
     b=64
-    ipad=b"0x36"*b
-    opad=b"0x5c"*b
+    ipad=(0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36)
+    opad=(0x5c,0x5c,0x5c,0x5c,0x5c,0x5c,0x5c,0x5c)
     K=Key()
     K0=""
     if len(K)==b:
@@ -45,15 +78,13 @@ while flag:
         K0=STR.Stribog(K0, 256)
         i=len(K0)
         while len(K0)!=b:
-            K0=K0+"0"
+            K0.append(0)
     elif len(K)<b:
         K0=K
         while len(K)!=b:
             K0=K0+b"0x00"
+    SISO=SiSo(K0,ipad,opad)
 
-    SISO=SiSo(K0,ipad,ipod)
-    Si=SISO[0]
-    So=SISO[1]
 
 
     point = str(input("Step 1\n>> Give message - 1\n>> Go to step 2 - 2\n>> Exit - 4\n>>> "))
@@ -77,39 +108,44 @@ while flag:
                 break
 
     elif point=="2" and mes!="":
+        
         flag_2=True
-
-        M=mes_b(mes,b)
+        #M=mes_b(mes,b)
+        M=mes_ord(mes)
 
         while flag_2:
             hesh = str(input("Step 2\n>> SHA - 1\n>> Stribog - 2\n>> Exit    - 3\n>>> "))
-            if type == "1":
+            if hesh == "1":
                 flag_3=True
                 while flag_3:
                     type = str(input("Step 2.1\n>> SHA 256 - 1\n>> SHA 512 - 2\n>> Exit    - 3\n>>> "))
                     if type=="1":
-                        pass
+                        H=("Result >> " + HMAC(SISO,mes,(0,256)) + "\n")
+                        print(H)
                     elif type=="2":
-                        pass
+                        H=("Result >> " + HMAC(SISO,mes,(0,512)) + "\n")
+                        print(H)
                     elif type=="3":
                         flag_3 = False
                     else:
                         print("Error - incorrect choose\n")
-            elif type=="2":
+            elif hesh=="2":
                 flag_3=True
                 while flag_3:
                     type = str(input("Step 2.1\n>>Stribog 256 - 1\n>>Stribog 512 - 2\n>> Exit    - 3\n>>> "))
                     if type=="1":
                         bit = int(256)
-                        H=("Result >> " + STR.Stribog(mes, bit) + "\n")
+                        H=("Result >> " + HMAC(SISO,mes,(1,bit)) + "\n")
+                        print(H)
                     elif type=="2":
                         bit = int(512)
-                        H=("ВResult >> " + STR.Stribog(mes, bit) + "\n")
+                        H=("ВResult >> " + HMAC(SISO,mes,(1,bit)) + "\n")
+                        print(H)
                     elif type=="3":
                         flag_3 = False
                     else:
                         print("Error - incorrect choose\n")
-            elif type=="3":
+            elif hesh=="3":
                 flag_2=False
             else:
                 print("Error - incorrect choose\n")
