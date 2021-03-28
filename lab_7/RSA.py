@@ -53,7 +53,7 @@ def generate_keys():
     p=easy_numbers[p]
     q=easy_numbers[q]
     n=p*q
-    fin=fi((p-1)*(q-1))
+    fin=fi((p-1)*(q-1)) # funct eiqlera
     while True:
         e=random.randrange(2,fin-1,1)
         check=Evklid(e,fin)
@@ -62,12 +62,11 @@ def generate_keys():
             break
     d = pow(e,-1,fin)
     with open("publick.txt","w") as pub:
-        stre=""+str(e)+"\n"+str(n)
+        stre=""+str(d)+"\n"+str(n)
         pub.write(stre)
     with open("private.txt","w") as pri:
-        stra=""+str(d)
+        stra=""+str(e)
         pri.write(stra)
-
 
 
 generate_keys()
