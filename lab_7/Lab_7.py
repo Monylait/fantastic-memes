@@ -44,6 +44,12 @@ def FBI_OPEN_UP():
        hm=STR.Stribog(mes,512)
     hmshtrix=pow(int(s),int(e),int(n))
     print("\nResult - "+"None\n"+"Algorithm hash - "+PKCS_7[2]+"\nAlgoritm CP - "+PKCS_7[9]+"\nAuthor - "+PKCS_7[6]+"\nTime create CP - "+PKCS_7[11]+"\n")
+    print("ЦП = "+str(s))
+    print("NC = "+str(hex(int(hmshtrix))))
+
+
+    hmsht=pow(s,e,n)
+    print(hmsht)
 
 
 def mes_b(mes,b):
@@ -79,9 +85,9 @@ def mes_ord(mes):
     return m
 
 
-def Cp (hasher:str,d,e,n):
-    hashers = int(hasher, 16)
-    s=pow(hashers,d,n)
+def Cp (hm_0:str,d,e,n):
+    hm = int(hm_0, 16)
+    s=pow(hm,d,n)
     with open("ЦП.txt","w") as cp:
         cp.write(str(s))
     return str(s)

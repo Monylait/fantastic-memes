@@ -1,0 +1,3 @@
+Если выполняется последнее равенство, то цифровая подпись считается верной. Стандартом, который регулирует структуру цифровой подписи для документа, является стандарт PKCS 7, рассмотренный немного ранее. Согласно стандарта PKCS 7 подписанные данные имеют следующую
+
+структуру: {CMSVersion, DigestAlgorithmIdentifiers, EncapsulatedContentInfo, CertificateSet OPTIONAL, RevocationInfoChoises OPTIONAL, SignerInfos}, г

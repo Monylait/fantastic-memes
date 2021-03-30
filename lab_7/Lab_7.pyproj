@@ -2,9 +2,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>91364076-c672-438b-94e0-e9a3bf16f447</ProjectGuid>
+    <ProjectGuid>bd2fdb33-249a-4bb3-af34-3d03d2754f18</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>RSA.py</StartupFile>
+    <StartupFile>Lab_7.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Lab_7.py" />
+    <Compile Include="module1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="RSA.py">
       <SubType>Code</SubType>
     </Compile>

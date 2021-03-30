@@ -21,6 +21,21 @@ def fi(n):
     return f;
 
 
+def phi(n: int) -> int:
+    result = n
+    i = 2
+    while i**2 < n:
+        while n % i == 0:
+            n /= i
+            result -= result / i
+        i += 1
+    if n > 1:
+        result -= result / n
+    return result
+
+
+
+
 def Evklid(x,y):
     a2=1
     a1=0
@@ -53,20 +68,18 @@ def generate_keys():
     p=easy_numbers[p]
     q=easy_numbers[q]
     n=p*q
-    fin=fi((p-1)*(q-1)) # funct eiqlera
+    fin=phi((p-1)*(q-1))
     while True:
         e=random.randrange(2,fin-1,1)
         check=Evklid(e,fin)
         if check==1:
             print("e, fin "+str(e)+" "+str(fin))
             break
-    d = pow(e,-1,fin)
+    d = pow(int(e),int(-1),int(fin))
     with open("publick.txt","w") as pub:
-        stre=""+str(d)+"\n"+str(n)
+        stre=""+str(e)+"\n"+str(n)
         pub.write(stre)
     with open("private.txt","w") as pri:
-        stra=""+str(e)
+        stra=""+str(d)
         pri.write(stra)
 
-
-generate_keys()
