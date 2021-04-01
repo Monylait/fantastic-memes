@@ -34,8 +34,6 @@ def phi(n: int) -> int:
     return result
 
 
-
-
 def Evklid(x,y):
     a2=1
     a1=0
@@ -68,7 +66,7 @@ def generate_keys():
     p=easy_numbers[p]
     q=easy_numbers[q]
     n=p*q
-    fin=phi((p-1)*(q-1))
+    fin=(p-1)*(q-1)
     while True:
         e=random.randrange(2,fin-1,1)
         check=Evklid(e,fin)

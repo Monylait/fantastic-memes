@@ -73,7 +73,7 @@ def shift(lst, steps, leng):
         lst = '0' + lst
     lst = lst[-steps:] + lst[:-steps]
     lst = int('0b'+''.join(map(str, lst)), base=2)
-    return lst 
+    return lst
 
 def ch(x, y, z, p):
     return bit_i(x, y)^bit_i(~x & p, z)
@@ -123,7 +123,7 @@ def sha256(res):
             value = value%mod
             W.append(value)
         a, b, c, d, e, f, g, h = (
-                H[0][i-1],  H[1][i-1], H[2][i-1], H[3][i-1], 
+                H[0][i-1],  H[1][i-1], H[2][i-1], H[3][i-1],
                 H[4][i-1], H[5][i-1], H[6][i-1], H[7][i-1])
         for t in range(64):
             T1 = h+E(e, 6, 11, 25, 32)+ch(e, f, g, 0xFFFFFFFF)+K[t]+W[t]
@@ -136,7 +136,7 @@ def sha256(res):
             e=(d+T1)%mod
             d=c
             c=b
-            b=a 
+            b=a
             a=(T1+T2)%mod
         H[0].append((a+H[0][i-1])%mod)
         H[1].append((b+H[1][i-1])%mod)
@@ -174,7 +174,7 @@ def sha512(res):
             m0.append(j)
         M.append(m0)
     H = [
-    0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1, 
+    0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1,
     0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179]
     H = h_to_bit(H)
     for i in range(1, N+1):
@@ -185,7 +185,7 @@ def sha512(res):
             value = value%mod2
             W.append(value)
         a, b, c, d, e, f, g, h = (
-                H[0][i-1],  H[1][i-1], H[2][i-1], H[3][i-1], 
+                H[0][i-1],  H[1][i-1], H[2][i-1], H[3][i-1],
                 H[4][i-1], H[5][i-1], H[6][i-1], H[7][i-1])
         for t in range(80):
             T1 = h+E(e, 14, 18, 41, 64)+ch(e, f, g, 0xFFFFFFFFFFFFFFFF)+K[t]+W[t]
@@ -198,7 +198,7 @@ def sha512(res):
             e=(d+T1)%mod2
             d=c
             c=b
-            b=a 
+            b=a
             a=(T1+T2)%mod2
         H[0].append((a+H[0][i-1])%mod2)
         H[1].append((b+H[1][i-1])%mod2)
