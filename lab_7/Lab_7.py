@@ -23,7 +23,7 @@ def FBI_OPEN_UP():
     while flag:
         task = input("Pleas enter file with cp with .txt\n>> ")
         try:
-            with open(task, "r") as cp_file:
+            with open(task, "r",encoding="UTF-8") as cp_file:
                 PKCS_7 = cp_file.read().split("\n")
             with open("ЦП.txt", "r") as cp_file:
                 sor = cp_file.read()
@@ -44,14 +44,34 @@ def FBI_OPEN_UP():
         hm = STR.Stribog(mes, 256)
     elif PKCS_7[1] == "STR512":
         hm = STR.Stribog(mes, 512)
+    test=convert_base(s,2,10)
+    test1=len(test)
+    test=convert_base(e,2,10)
+    test2=len(test)
+    test=convert_base(n,2,10)
+    test3=len(test)
+    test=convert_base(hm,2,16)
+    test4=len(test)
+    print("\ns - "+str(test1)+"\te - "+str(test2)+"\tn - "+str(test3)+"\thm_0 - "+str(test4))
     hmshtrix = pow(s, int(e), int(n))
     print("\nResult - " + "None\n" + "Algorithm hash - " + PKCS_7[2] + "\nAlgoritm CP - " + PKCS_7[9] + "\nAuthor - " +
           PKCS_7[6] + "\nTime create CP - " + PKCS_7[11] + "\n")
-    print("ЦП = " + str(sor))
-    print("Cp_s = " + str(s))
+    hm = int(hm, 16)
+    print("hm = " + str(hm))
     # print("NC = "+str(hex(int(hmshtrix))))
-    print("NC = " + str(int(hmshtrix)))
+    print("hm'= " + str(int(hmshtrix)))
 
+
+def convert_base(num, to_base, from_base):
+    # first convert to decimal number
+    n = int(num, from_base) if isinstance(num, str) else num
+    # now convert decimal to 'to_base' base
+    alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    res = ""
+    while n > 0:
+        n,m = divmod(n, to_base)
+        res += alphabet[m]
+    return res[::-1]
 
 
 def mes_b(mes, b):
@@ -88,9 +108,20 @@ def mes_ord(mes):
 
 
 def Cp(hm_0: str, d, e, n):
-    hm = int(hm_0, 16)
+    test=convert_base(int(d),2,10)
+    test1=len(test)
+    test=convert_base(e,2,10)
+    test2=len(test)
+    test=convert_base(n,2,10)
+    test3=len(test)
+    test=convert_base(hm_0,2,16)
+    test4=len(test)
+    hm = int(convert_base(hm_0,10,16))
     print("\nstart s\priv")
     s = pow(hm, int(d),n)
+    test=convert_base(s,2,16)
+    test5=len(test)
+    print("\nd - "+str(test1)+"\te - "+str(test2)+"\tn - "+str(test3)+"\thm_0 - "+str(test4)+"\ts - "+str(test5))
     #s = powe % n  # n - ?
     print("\nstart write cp\priv")
     with open("ЦП.txt", "w") as cp:
@@ -159,6 +190,8 @@ while flag:
             with open("publick.txt", "r") as pub_k:
                 e = int(pub_k.readline())
                 n = int(pub_k.readline())
+                test=convert_base(n,2,16)
+                test=len(test)  
                 PKCS_7[3] = str(e) + " " + str(n)
         except FileNotFoundError:
             print("Need generate keys. Please, do it and try latter\n")

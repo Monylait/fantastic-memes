@@ -34,6 +34,8 @@ def phi(n: int) -> int:
     return result
 
 
+
+
 def Evklid(x,y):
     a2=1
     a1=0
@@ -53,6 +55,18 @@ def Evklid(x,y):
     return x
 
 
+def convert_base(num, to_base, from_base):
+    # first convert to decimal number
+    n = int(num, from_base) if isinstance(num, str) else num
+    # now convert decimal to 'to_base' base
+    alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    res = ""
+    while n > 0:
+        n,m = divmod(n, to_base)
+        res += alphabet[m]
+    return res[::-1]
+
+
 def generate_keys():
     easy_numbers=list()
     with open("result.txt","r") as pq:
@@ -66,16 +80,26 @@ def generate_keys():
     p=easy_numbers[p]
     q=easy_numbers[q]
     n=p*q
-    fin=(p-1)*(q-1)
+    fin=phi((p-1)*(q-1))
     while True:
         e=random.randrange(2,fin-1,1)
         check=Evklid(e,fin)
         if check==1:
+
             print("e, fin "+str(e)+" "+str(fin))
             break
     d = pow(int(e),int(-1),int(fin))
+    test=convert_base(int(d),2,10)
+    test1=len(test)
+    test=convert_base(e,2,10)
+    test2=len(test)
+    test=convert_base(n,2,10)
+    test3=len(test)
+    print("\nd - "+str(test1)+"\te - "+str(test2)+"\tn - "+str(test3))
     with open("publick.txt","w") as pub:
         stre=""+str(e)+"\n"+str(n)
+        test=convert_base(n,2,16)
+        test=len(test)
         pub.write(stre)
     with open("private.txt","w") as pri:
         stra=""+str(d)

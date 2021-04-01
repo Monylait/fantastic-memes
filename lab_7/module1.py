@@ -157,8 +157,10 @@ def Gen_Easy_Num(k,t):
             with open("result_Easy_numbers.txt", "a") as REN:
                 REN.write(str(p)+"\n")
             flag=False
+
+
 for i in range(0,10):
-    z=(number.getPrime(512, randfunc=None))
+    z=(number.getPrime(256, randfunc=None))
     with open("result.txt", "a") as REN:
                 REN.write(str(z)+"\n")
 
