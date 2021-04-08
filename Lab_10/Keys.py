@@ -54,7 +54,7 @@ def gen_keys():
     Bi=list()
     print(n)
     for i in range (0,leng,1):
-        ai=random.randint(0,n)
+        ai=random.randint(0,10000)
         #q=Evklid(ai,n)
         #if q==False:
           #  print("False")

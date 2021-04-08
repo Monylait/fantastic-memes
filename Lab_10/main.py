@@ -17,6 +17,14 @@ def convert_base(num, to_base, from_base):
     return res[::-1]
 
 
+def Pim(ai,si,n):
+    pim=1
+    for i in range (0,len(ai)):
+        aisi=pow(int(ai[i]),int(si[i]),int(n))
+        pim=pim*aisi
+    return pim
+
+
 def FBI_OPEN_UP(m=512):
     PKS=list()
     with open("publick.txt","r") as priv:
@@ -32,37 +40,43 @@ def FBI_OPEN_UP(m=512):
             PKS.append(i)
     M=PKS[13]
     w=int(t)*int(t)
-    z=1
     j=1
     i=0
     k=0
-    for i in range(0,m):
-        z = (z * pow(int(Bi[i]), int(s[i])))%int(n)
-        if k<5:
-            print("ai =" + str(Ai[i]) + "\ns[i] = " + str(s[i])+ "\nz = " + str(z)+ "\nn = " + str(n))
-            k+=1
-    w=int((w*z))
-    w = convert_base(w, 2, 16)
-    print(M)
-    H=SHA.sha512(M+str(w))
+    z=Pim(Bi,s,n)
+    #for i in range(0,m):
+    #    z = int((z * pow(int(Bi[i]), int(s[i])))%int(n))
+    w=int((w*z)%int(n))
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    print(w)
+    H=SHA.sha512(str(M)+str(w))
     H = convert_base(H, 2, 16)
+    while len(H)!=512:
+        s="0"+H
+    print(len(s))
+    print(len(H))
     print("s = "+str(s))
     print("s'= "+str(H))
-
+    if s==H:
+        print(True)
+    else:
+        print(False)
 
 def Cp(Bi,n,Ai,M):
     n=int(n)
-    r=random.randint(1,n-1)
-    u=(r*r)%n
+    r=random.randint(1,n)
+    u=pow(r,2,n)
     #u = convert_base(u, 2,10 )
-    H=SHA.sha512(M+str(u))
+    H=SHA.sha512(str(M)+str(u))
     s=convert_base(H, 2, 16)
     while len(s)!=512:
         s="0"+s
     z=1
     print("s  = " + str(len(s)))
-    for i in range(0,512):
-        z=(z*pow(int(Ai[i]),int(s[i])))%n
+    print(u)
+    z=Pim(Ai,s,n)
+    #for i in range(0,len(s)):
+    #    z=int((z*pow(int(Ai[i]),int(s[i])))%n)
     t=int((r*z))
     with open("Cp.txt","w") as cp:
         strin=str(s)+" "+str(t)
