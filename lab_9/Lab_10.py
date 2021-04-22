@@ -97,8 +97,9 @@ def LEAD_5(Si,Lambda,E,T):
         q=int(x[4])
         e=int(x[5])
         a=int(x[6])
-    stepen=(-1)*int(Lambda)*int(convert_base(E, 10, 16))
-    Ri=pow(P,stepen,p)
+    stepen=(0-int(Lambda))*int(convert_base(E, 10, 16))
+    P=pow(P,stepen)*pow(a,Si)
+    Ri=P%p
     Ssht=(int(T)+int(z)*int(convert_base(E, 10, 16)))%q
     S=(Ssht+Si)%q
     with open("1_res.txt","r") as txt:
